@@ -1,0 +1,18 @@
+
+.navbar-dark .navbar-brand {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show>.nav-link {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.navbar-brand {
+    font-size: 2em;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    font-size: 1.2em;
+}

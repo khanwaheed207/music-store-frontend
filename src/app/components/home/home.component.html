@@ -1,0 +1,44 @@
+<div class="container-fluid">
+    <figure class="hero-image">
+        <img width="1900" height="540" src="https://demo.audiotheme.com/promenade/wp-content/uploads/sites/11/2014/04/hero.jpg" class="attachment-full size-full wp-post-image" alt="" loading="lazy" srcset="https://demo.audiotheme.com/promenade/wp-content/uploads/sites/11/2014/04/hero.jpg 1600w, https://demo.audiotheme.com/promenade/wp-content/uploads/sites/11/2014/04/hero-150x50.jpg 150w, https://demo.audiotheme.com/promenade/wp-content/uploads/sites/11/2014/04/hero-300x101.jpg 300w, https://demo.audiotheme.com/promenade/wp-content/uploads/sites/11/2014/04/hero-1024x345.jpg"
+            sizes="(max-width: 1600px) 100vw, 1600px" itemprop="image" data-attachment-id="145" data-permalink="https://demo.audiotheme.com/promenade/home/hero/" data-orig-file="https://demo.audiotheme.com/promenade/wp-content/uploads/sites/11/2014/04/hero.jpg"
+            data-orig-size="1600,540" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}"
+            data-image-title="hero" data-image-description="" data-image-caption="" data-medium-file="https://demo.audiotheme.com/promenade/wp-content/uploads/sites/11/2014/04/hero-300x101.jpg" data-large-file="https://demo.audiotheme.com/promenade/wp-content/uploads/sites/11/2014/04/hero-1024x345.jpg">
+        </figure>
+
+    <div class="row w-100 m-0" *ngIf="fetching">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="row w-100 m-0 mt-2" *ngIf="!fetching">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let product of products">
+            <div class="card shadow-sm" style="height: 100%;">
+                <img src="https://yamaha.ndcdn.in/media/catalog/product/cache/c595231eba0af04c4680df82100c4706/f/s/fsx80c_nt_a_0001.jpg" alt="" class="card-img-top img">
+                <div class="card-body">
+                    <h5 class="m-0 font-weight-bold card-title">
+                        {{ product["title"] }}
+                    </h5>
+                    <p class="card-text text-limit">
+                        {{ product["description"] }}
+                    </p>
+                </div>
+                <div class="card-footer bg-white border-0">
+                    <div class="d-flex justify-content-evenly align-items-center">
+                        <button type="button" class="btn btn-sm btn-dark mr-2">
+                Buy Now
+              </button>
+                        <button type="button" class="btn btn-sm btn-dark mr-2" (click)="addProductToShoppingCart(product)">
+                Add to Cart
+              </button>
+                        <button type="button" class="btn btn-sm btn-dark" (click)="addProductToWhishlist(product)">
+                Add to Whishlist
+              </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,282 @@
+<div class="container-fluid py-3">
+    <div class="row w-100 m-0">
+        <div class="col">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <h4>Products</h4>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="d-flex justify-content-end align-items-center">
+                                <button class="btn btn-dark mr-1" (click)="openModal(productModal)">Add Product</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-flush m-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Sr. No</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Referance Code</th>
+                                <th scope="col">Rating</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Artist</th>
+                                <th scope="col">Artwork</th>
+                                <th scope="col">Image URL</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Updated At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let prod of prodObservable | async; index as idx">
+                                <td>{{ idx + 1 }}</td>
+                                <td>{{ prod["title"] }}</td>
+                                <td class="text-wrap">{{ prod["description"] }}</td>
+                                <td class="text-wrap">{{ prod["referance_code"] }}</td>
+                                <td>{{ prod["rating"] }}</td>
+                                <td>{{ prod["price"] | currency:'USD':'symbol':'1.0' }}</td>
+                                <td>{{ prod["artist"] }}</td>
+                                <td>{{ prod["artwork"] }}</td>
+                                <td>{{ prod["image_url"] }}</td>
+                                <td>{{ prod["createdAt"] }}</td>
+                                <td>{{ prod["updatedAt"] }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-dark mr-1" (click)="openImageModal(viewImageModal, prod.images, prod.thumbnailImage)">View Images</button>
+                                    <button type="button" class="btn btn-sm btn-dark mr-1" (click)="viewProductDetails(viewModal, prod)">View Details</button>
+                                    <button type="button" class="btn btn-sm btn-dark mr-1" (click)="openModal(productModal, prod)">Update</button>
+                                    <button type="button" class="btn btn-sm btn-danger mr-1" (click)="deleteProduct()">Delete</button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- create product-->
+<ng-template #productModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Product {{ updation ? 'Updation' : 'Creation' }}</h4>
+        <button type="button" class="btn-close" aria-label="Close" id="closeAddNewStaffModal" #closeAddNewStaffModal (click)="modal.dismiss('Cross click')">
+        <!-- <span aria-hidden="true">&times;</span> -->
+      </button>
+    </div>
+    <form [formGroup]="productForm" ngNativeValidate>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group m-0 mb-2">
+                        <label for="name" class="text-sm">Title</label>
+                        <input type="text" name="title" formControlName="title" class="form-control" placeholder="Title" required>
+                    </div>
+
+                    <div class="form-group m-0 mb-2">
+                        <label for="name" class="text-sm">Referance Code</label>
+                        <input type="text" name="referance_code" formControlName="referance_code" class="form-control" placeholder="referance_code" required>
+                    </div>
+
+                    <div class="form-group m-0 mb-2">
+                        <label for="name" class="text-sm">Rating</label>
+                        <input type="text" name="rating" formControlName="rating" class="form-control" placeholder="rating" required>
+                    </div>
+
+                    <div class="form-group m-0 mb-2">
+                        <label for="name" class="text-sm">Artist</label>
+                        <input type="text" name="artist" formControlName="artist" class="form-control" placeholder="artist" required>
+                    </div>
+                    <div class="form-group m-0 mb-2">
+                        <label for="name" class="text-sm">Artwork</label>
+                        <input type="text" name="artwork" formControlName="artwork" class="form-control" placeholder="artwork" required>
+                    </div>
+
+                    <div class="form-group m-0 mb-2">
+                        <label for="price" class="text-sm">Price</label>
+                        <input type="number" name="price" formControlName="price" class="form-control" placeholder="Price" min="1" required>
+                    </div>
+                    <div class="form-group m-0 mb-2">
+                        <label for="status" class="text-sm">Product status</label><br>
+                        <div id="status" class="btn-group btn-group-toggle" ngbRadioGroup>
+                            <label ngbButtonLabel class="btn-primary btn-sm mr-2">
+                  <input ngbButton type="radio" class="btn-check " [value]="true" formControlName="active" name="active">Enable
+                  </label>
+                            <label ngbButtonLabel class="btn-danger btn-sm">
+                    <input ngbButton type="radio" class="btn-check" [value]="false" formControlName="active" name="active">Disable
+                  </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group m-0 mb-2">
+                        <label for="description" class="text-sm">Description</label>
+                        <textarea id="description" name="description" id="adress" rows="4" class="form-control" formControlName="description"></textarea>
+                    </div>
+                    <div class="col-12 px-0">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="m-0">Product Images</h4>
+                                <input type="file" #file (change)="checkImageFileType($event)" multiple hidden>
+                                <button type="button" class="btn btn-sm btn-dark" (click)="file.click()">
+                    Add
+                  </button>
+                            </div>
+                        </div>
+                        <div class="row mt-2" *ngIf="tempImageFiles.length == 0">
+                            <div class="col-12" style="height: 40px;">
+                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                    <span class="material-icons" style="font-size: 26px;">warning</span>
+                                    <h4 class="m-0 mt-1">No Images</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3" *ngIf="tempImageFiles.length != 0">
+                            <div class="col-12 my-2" *ngFor="let imageFile of tempImageFiles; index as idx">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex flex-column">
+                                        <p class="m-0 mb-1">
+                                            <strong>{{ idx + 1 }}</strong>. {{ imageFile.name || imageFile }}
+                                        </p>
+                                        <span *ngIf="productForm.get('thumbnailImage')?.value === idx" class="text-sm text-muted">
+                        Selected as Thumnail Image
+                      </span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <button type="button" class="btn btn-primary btn-sm mr-2" (click)="changeThumbnailImageIdx(idx)" [ngClass]="{
+                        'btn-success': productForm.get('thumbnailImage')?.value === idx
+                      }">
+                        {{ productForm.get('thumbnailImage')?.value === idx ? 'Selected' : 'Select' }}
+                      </button>
+                                        <button type="button" class="btn btn-danger btn-sm" (click)="removeImage(idx)">
+                        Remove
+                      </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-sm" (click)="modal.dismiss('')">
+          Cancel
+        </button>
+            <button type="submit" class="btn btn-dark btn-sm" [disabled]="loader" (click)="addProduct()">
+          Save
+          <span *ngIf="loader">&nbsp;</span>
+          <div *ngIf="loader" class="spinner-border spinner-border-sm text-white" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+        </div>
+    </form>
+</ng-template>
+<!--create product-->
+
+<!---- view product details -->
+<ng-template let-modal #viewModal>
+    <div class="modal-header border-0 d-flex justify-content-between align-items-center">
+        <h4>Product Details</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+        <!-- "title": "Bingo F280 Acoustic Guitar With Gig Bag",
+        "description": "Body shape: Traditional Western, Top: Spruce, Back & Sides: Tonewood",
+        "referance_code": "MSAGYF280",
+        "rating": 5,
+        "price": 7650,
+        "artist": "John Smith",
+        "artwork": "Guitar",
+        "url": "http:/ -->
+    </div>
+    <div class="modal-body">
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Title</span>
+            <p>{{ productModel?.title }}</p>
+        </div>
+
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Description</span>
+            <p>{{ productModel?.description || 'Not Provided' }}</p>
+        </div>
+
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Referance Code</span>
+            <p>{{ productModel?.referance_code }}</p>
+        </div>
+
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Rating</span>
+            <p>{{ productModel?.rating }}</p>
+        </div>
+
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Price</span>
+            <p>{{ productModel?.price | currency:'USD':'symbol':'1.0' }}</p>
+        </div>
+
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Artist</span>
+            <p>{{ productModel?.artist }}</p>
+        </div>
+
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Artwork</span>
+            <p>{{ productModel?.artwork }}</p>
+        </div>
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Image URL</span>
+            <p>&#8377;{{ productModel?.url }}</p>
+        </div>
+
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Added On</span>
+            <p class="text-wrap">{{ productModel?.createdAt | date: 'dd MMMM yyyy, hh:MM:ss aa' }}</p>
+        </div>
+
+        <div class="d-flex flex-column mb-1">
+            <span class="text-sm text-muted">Updated On</span>
+            <p class="text-wrap">{{ productModel?.updatedAt | date: 'dd MMMM yyyy, hh:MM:ss aa' }}</p>
+        </div>
+    </div>
+</ng-template>
+
+<!--view images-->
+<ng-template #viewImageModal let-modal>
+    <div class="modal-header border-0 d-flex justify-content-between align-items-center">
+        <h3>Images</h3>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12 col-sm-2 px-0 border-right verticalScroll">
+                <ul class="list-group list-group-flush">
+                    <li class="list-hover list-group-item" *ngFor="let imgSrc of tempImageFiles; index as idx" (click)="selectedImageIdx = idx">
+                        <div class="position-absolute mt-2" *ngIf="thumbnailImageIdx === idx">
+                            <h4 class="thumbnail-image-tag px-2 py-1">Thumbnail Image</h4>
+                        </div>
+                        <img [src]="imgSrc" [alt]="imgSrc" class="img-fluid rounded shadow-sm" height="64px" loading="lazy">
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 col-sm-10">
+                <div class="sticky-top">
+                    <img [src]="tempImageFiles[selectedImageIdx]" [alt]="tempImageFiles[selectedImageIdx]" class="img-fluid shadow-sm img-style" loading="lazy" title="View Full Image" (click)="openImage(tempImageFiles[selectedImageIdx])">
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-12 d-flex align-items-center justify-content-center">
+        <img [src]="imageUrl" class="img-fluid shadow-sm" alt="" style="height: 25em;">
+      </div> -->
+    </div>
+</ng-template>
