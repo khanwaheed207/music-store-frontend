@@ -13,6 +13,8 @@ export class InstrumentsComponent implements OnInit {
   cartProducts: any[] = [];
   whishlistProducts: any[] = [];
 
+  searchInput:string ="";
+  defaultImage ="https://yamaha.ndcdn.in/media/catalog/product/cache/c595231eba0af04c4680df82100c4706/f/s/fsx80c_nt_a_0001.jpg";
   constructor(private productSrv:ProductsService) { }
 
   ngOnInit(): void {
@@ -36,5 +38,14 @@ export class InstrumentsComponent implements OnInit {
 
   addProductToShoppingCart(product:any) {
     this.productSrv.addProductToShoppingCart(product);
+  }
+
+  search() {
+    console.log(this.searchInput);    
+    if(this.searchInput.length >0) {
+      this.productSrv.getProducts(this.searchInput);
+    }else {
+      this.productSrv.getProducts();
+    }
   }
 }

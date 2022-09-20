@@ -1,21 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private BASE_URL_FOR_AUTH = "http://localhost:4300/api/auth";
-
+  private BASE_URL_FOR_AUTH = `${environment.apiUrl}/auth`;
+  
   constructor(private httpClient: HttpClient) { }
 
   public sighUp(user: any) {
-    return this.httpClient.post(`${this.BASE_URL_FOR_AUTH}/signup`, user)
+    return this.httpClient.post(`${this.BASE_URL_FOR_AUTH}/signup`, user);
   }
 
   public signIn(user: any) {
-    return this.httpClient.post(`${this.BASE_URL_FOR_AUTH}/signin`, user)
+    return this.httpClient.post(`${this.BASE_URL_FOR_AUTH}/signin`, user);
   }
 
   public isLogin(): boolean {

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { AuthModule } from '../auth.module';
 
 @Component({
   selector: 'app-login',
@@ -36,14 +35,12 @@ export class LoginComponent implements OnInit {
       this.isSubmitted = true;
       this.authSrv.signIn(this.loginForm.getRawValue()).subscribe((data: any) => {
         this.setUser(data);
-        console.log("User logged in seccessfull!");
-       console.log(data);
-       if(data.roles[0]="ROLE_ADMIN") {
-        this.router.navigateByUrl("/admin/users");
-       } else{
-        this.router.navigateByUrl("/instruments");
-       }
-        
+        console.log(data);
+        if(data.roles[0]=="ROLE_ADMIN") {
+          this.router.navigateByUrl("/admin/users");
+        } else{
+          this.router.navigateByUrl("/instruments");
+        }
       }, err => {
         console.log(err);
       })

@@ -88,7 +88,7 @@ export class ProductsComponent implements OnInit {
         artist: [null],
         artwork: [null],
         active: [true],
-        url: [],
+        image_url: [],
       });
     } else {
       this.updation = true;
@@ -100,10 +100,10 @@ export class ProductsComponent implements OnInit {
         price: [productObj.price],
         artist: [productObj.artist],
         artwork: [productObj.artwork],
-        url: [productObj.url],
+        image_url: [productObj.image_url],
       });
       // this.onSelectOption(productObj.productCategory);
-      this.tempImageFiles = productObj.url || [];
+      this.tempImageFiles = productObj.image_url || [];
     }
   }
 
@@ -153,7 +153,7 @@ export interface Products {
   rating?: number;
   price?: number;
   artist?: string;
-  url?: string[];
+  image_url?: string[];
   artwork?: string;
   createdAt?: Date;
   updatedAt?: Date;

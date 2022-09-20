@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { OrdersComponent } from './components/orders/orders.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthTokenInterceptorService } from './services/auth-token-interceptor.service';
+import { SummaryPipe } from './pipes/summary.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { AuthTokenInterceptorService } from './services/auth-token-interceptor.s
     HomeComponent,
     NavbarComponent,
     NotfoundComponent,    
-    OrdersComponent
+    OrdersComponent, SummaryPipe
   ],
   imports: [
     BrowserModule,RouterModule,FormsModule,

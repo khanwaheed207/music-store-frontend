@@ -28,3 +28,14 @@
 figure{
   margin-left: -2rem;
 }
+.card-img {
+  padding-top: 10px;
+  width: inherit;
+  height: 180px;
+  object-fit: contain;
+  display: block;
+}
+.card:hover {
+  box-shadow: 2px 2px 15px #444;
+  transform: scale(1.02)
+}

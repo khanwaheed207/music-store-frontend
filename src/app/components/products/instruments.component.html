@@ -10,8 +10,8 @@
                         <div class="font-weight-bold mx-2 result">18 from 200</div>
                     </li>
                     <li class="nav-item d-inline-flex align-items-center justify-content-between ms-5 mb-lg-0 mb-3">
-                        <input class="form-control me-2 ms-5 search-input" type="search" placeholder="Search Musical Instruments" aria-label="Search">
-                        <button class="btn btn-outline-dark" type="submit">Search</button>
+                        <input class="form-control me-2 ms-5 search-input" type="search" [(ngModel)]="searchInput" placeholder="Search Musical Instruments" aria-label="Search">
+                        <button class="btn btn-outline-dark" type="submit" (click)="search()">Search</button>
                 </ul>
             </div>
         </nav>
@@ -36,10 +36,10 @@
         <div class="row w-100 m-0 mt-2">
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4" *ngFor="let product of products">
                 <div class="card d-flex flex-column align-items-center">
-                    <div class="product-name"> {{ product["title"] }}</div>
-                    <div class="card-img"> <img src="https://yamaha.ndcdn.in/media/catalog/product/cache/c595231eba0af04c4680df82100c4706/f/s/fsx80c_nt_a_0001.jpg" alt=""> </div>
+                    <div class="product-name"> {{ product["title"]  | summary : 40}}</div>
+                    <div class="card-img"> <img [src]="product['image_url'] ? product['image_url'] : defaultImage" alt=""> </div>
                     <div class="card-body pt-5">
-                        <div class="text-muted text-center mt-auto"> {{ product["description"] }}</div>
+                        <div class="text-muted text-center mt-auto"> {{ product["description"] | summary : 80}}</div>
                         <div class="d-flex align-items-center price">
                             <div class="card-footer bg-white border-0">
                                 <div class="align-items-center">

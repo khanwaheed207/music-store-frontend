@@ -20,8 +20,9 @@ export class ProductsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getProducts() {
-    this.httpClient.get(this.instrumentUrl).subscribe(
+  getProducts(title?:string) {
+    let url  = title ? `${this.apiUrl}?title=${title}` : this.apiUrl ;
+    this.httpClient.get(url).subscribe(
       (res) => {
         this.productsSub.next(Object.assign([], res))
         this.productsRetreived = true

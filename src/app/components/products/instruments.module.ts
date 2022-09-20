@@ -6,8 +6,9 @@ import { WhishlistComponent } from './whishlist/whishlist.component';
 import { ViewComponent } from './view/view.component';
 import { InstrumentsComponent } from './instruments.component';
 import { RouterModule, Routes } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsService } from 'src/app/services/products.service';
+import { SummaryPipe } from 'src/app/pipes/summary.pipe';
 
 
 const routes: Routes = [
@@ -26,10 +27,11 @@ const routes: Routes = [
     ViewComponent,
     WhishlistComponent,
     CartComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    SummaryPipe
   ],
   imports: [
-    CommonModule,RouterModule.forChild(routes),ReactiveFormsModule
+    CommonModule,RouterModule.forChild(routes),ReactiveFormsModule,FormsModule
   ],
   exports: [RouterModule],
   providers: [ProductsService]

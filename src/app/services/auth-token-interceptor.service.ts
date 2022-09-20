@@ -11,7 +11,7 @@ export class AuthTokenInterceptorService implements HttpInterceptor {
   constructor(private authSrv: AuthService) { }
   
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.authSrv.getToken();    
+    const token = this.authSrv.getToken();
     if (token) {
       request = request.clone({
         setHeaders: { 'x-access-token': `${token}` }

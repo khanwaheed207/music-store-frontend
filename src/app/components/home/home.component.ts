@@ -13,6 +13,9 @@ export class HomeComponent implements OnInit {
   cartProducts: any[] = [];
   whishlistProducts: any[] = [];
 
+  defaultImage ="https://yamaha.ndcdn.in/media/catalog/product/cache/c595231eba0af04c4680df82100c4706/f/s/fsx80c_nt_a_0001.jpg";
+
+
   constructor(private productSrv:ProductsService) { }
 
   ngOnInit(): void {
