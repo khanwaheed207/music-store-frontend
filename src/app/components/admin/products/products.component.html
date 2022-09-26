@@ -33,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let prod of prodObservable | async; index as idx">
+                            <tr *ngFor="let prod of productList ; index as idx">
                                 <td>{{ idx + 1 }}</td>
                                 <td>{{ prod["title"] }}</td>
                                 <td class="text-wrap">{{ prod["description"] }}</td>
@@ -46,9 +46,12 @@
                                 <td>{{ prod["createdAt"] }}</td>
                                 <td>{{ prod["updatedAt"] }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-dark me-1 mb-1" (click)="viewProductDetails(viewModal, prod)">View</button>
-                                    <button type="button" class="btn btn-sm btn-dark me-1 mb-1" (click)="openModal(productModal, prod)">Update</button>
-                                    <button type="button" class="btn btn-sm btn-danger me-1 mb-1" (click)="deleteProduct()">Delete</button>
+                                    <button type="button" class="btn btn-sm btn-dark me-1 mb-1"
+                                        (click)="viewProductDetails(viewModal, prod)">View</button>
+                                    <button type="button" class="btn btn-sm btn-dark me-1 mb-1"
+                                        (click)="openModal(productModal, prod)">Update</button>
+                                    <button type="button" class="btn btn-sm btn-danger me-1 mb-1"
+                                        (click)="deleteProduct(prod.id)">Delete</button>
 
                                 </td>
                             </tr>
@@ -64,9 +67,10 @@
 <ng-template #productModal let-modal>
     <div class="modal-header">
         <h4 class="modal-title">Product {{ updation ? 'Updation' : 'Creation' }}</h4>
-        <button type="button" class="btn-close" aria-label="Close" id="closeAddNewStaffModal" #closeAddNewStaffModal (click)="modal.dismiss('Cross click')">
-        <!-- <span aria-hidden="true">&times;</span> -->
-      </button>
+        <button type="button" class="btn-close" aria-label="Close" id="closeAddNewStaffModal" #closeAddNewStaffModal
+            (click)="modal.dismiss('Cross click')">
+            <!-- <span aria-hidden="true">&times;</span> -->
+        </button>
     </div>
     <form [formGroup]="productForm" ngNativeValidate>
         <div class="modal-body">
@@ -74,111 +78,108 @@
                 <div class="col-12 col-sm-6">
                     <div class="form-group m-0 mb-2">
                         <label for="name" class="text-sm">Title</label>
-                        <input type="text" name="title" formControlName="title" class="form-control" placeholder="Title" required>
+                        <input type="text" name="title" formControlName="title" class="form-control" placeholder="Title"
+                            required>
+                            <div *ngIf="hasError('title')" [class]="hasError('title') ? 'error' : ''">
+                                <div *ngIf="title?.errors">
+                                    <span *ngIf="title?.errors?.['required']">Title is a required field</span>
+                                </div>
+                            </div>
                     </div>
 
                     <div class="form-group m-0 mb-2">
                         <label for="name" class="text-sm">Referance Code</label>
-                        <input type="text" name="referance_code" formControlName="referance_code" class="form-control" placeholder="referance_code" required>
+                        <input type="text" name="referance_code" formControlName="referance_code" class="form-control"
+                            placeholder="referance_code" required>
+                            <div *ngIf="hasError('referance_code')" [class]="hasError('referance_code') ? 'error' : ''">
+                                <div *ngIf="referance_code?.errors">
+                                    <span *ngIf="referance_code?.errors?.['required']">referance_code is a required field</span>
+                                </div>
+                            </div>
                     </div>
 
                     <div class="form-group m-0 mb-2">
                         <label for="name" class="text-sm">Rating</label>
-                        <input type="text" name="rating" formControlName="rating" class="form-control" placeholder="rating" required>
+                        <input type="text" name="rating" formControlName="rating" class="form-control"
+                            placeholder="Rating" required>
+                            <div *ngIf="hasError('rating')" [class]="hasError('rating') ? 'error' : ''">
+                                <div *ngIf="rating?.errors">
+                                    <span *ngIf="rating?.errors?.['required']">Rating is a required field</span>
+                                </div>
+                            </div>
                     </div>
 
                     <div class="form-group m-0 mb-2">
                         <label for="name" class="text-sm">Artist</label>
-                        <input type="text" name="artist" formControlName="artist" class="form-control" placeholder="artist" required>
+                        <input type="text" name="artist" formControlName="artist" class="form-control"
+                            placeholder="artist" required>
+                            <div *ngIf="hasError('artist')" [class]="hasError('artist') ? 'error' : ''">
+                                <div *ngIf="artist?.errors">
+                                    <span *ngIf="artist?.errors?.['required']">Artist is a required field</span>
+                                </div>
+                            </div>
                     </div>
+
                     <div class="form-group m-0 mb-2">
                         <label for="name" class="text-sm">Artwork</label>
-                        <input type="text" name="artwork" formControlName="artwork" class="form-control" placeholder="artwork" required>
+                        <input type="text" name="artwork" formControlName="artwork" class="form-control"
+                            placeholder="Artwork" required>
+                            <div *ngIf="hasError('artwork')" [class]="hasError('artwork') ? 'error' : ''">
+                                <div *ngIf="artwork?.errors">
+                                    <span *ngIf="artwork?.errors?.['required']">Artwork is a required field</span>
+                                </div>
+                            </div>
                     </div>
 
                     <div class="form-group m-0 mb-2">
                         <label for="price" class="text-sm">Price</label>
-                        <input type="number" name="price" formControlName="price" class="form-control" placeholder="Price" min="1" required>
+                        <input type="number" name="price" formControlName="price" class="form-control"
+                            placeholder="Price" min="1" required>
+                            <div *ngIf="hasError('price')" [class]="hasError('price') ? 'error' : ''">
+                                <div *ngIf="price?.errors">
+                                    <span *ngIf="price?.errors?.['required']">Price is a required field</span>
+                                </div>
+                            </div>
                     </div>
-                    <div class="form-group m-0 mb-2">
-                        <label for="status" class="text-sm">Product status</label><br>
-                        <div id="status" class="btn-group btn-group-toggle" ngbRadioGroup>
-                            <label ngbButtonLabel class="btn-primary btn-sm mr-2">
-                  <input ngbButton type="radio" class="btn-check " [value]="true" formControlName="active" name="active">Enable
-                  </label>
-                            <label ngbButtonLabel class="btn-danger btn-sm">
-                    <input ngbButton type="radio" class="btn-check" [value]="false" formControlName="active" name="active">Disable
-                  </label>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="col-12 col-sm-6">
                     <div class="form-group m-0 mb-2">
                         <label for="description" class="text-sm">Description</label>
-                        <textarea id="description" name="description" id="adress" rows="4" class="form-control" formControlName="description"></textarea>
+                        <textarea id="description" name="description" id="adress" rows="4" class="form-control"
+                            formControlName="description"></textarea>
+                            <div *ngIf="hasError('description')" [class]="hasError('description') ? 'error' : ''">
+                                <div *ngIf="description?.errors">
+                                    <span *ngIf="description?.errors?.['required']">Description is a required field</span>
+                                </div>
+                            </div>
                     </div>
 
                     <div class="form-group m-0 mb-2">
                         <label for="image_url" class="text-sm">Image URL</label>
-                        <textarea id="image_url" name="image_url" id="adress" rows="4" class="form-control" formControlName="image_url"></textarea>
+                        <textarea id="image_url" name="image_url" id="adress" rows="4" class="form-control"
+                            formControlName="image_url"></textarea>
+                            <div *ngIf="hasError('image_url')" [class]="hasError('image_url') ? 'error' : ''">
+                                <div *ngIf="image_url?.errors">
+                                    <span *ngIf="image_url?.errors?.['required']">image_url is a required field</span>
+                                </div>
+                            </div>
                     </div>
-                    <!-- <div class="col-12 px-0"> -->
-                    <!-- <div class="d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h4 class="m-0">Product Images</h4>
-                                <input type="file" #file (change)="checkImageFileType($event)" multiple hidden>
-                                <button type="button" class="btn btn-sm btn-dark" (click)="file.click()">
-                    Add
-                  </button>
-                            </div>
-                        </div> -->
-                    <!-- <div class="row mt-2" *ngIf="tempImageFiles.length == 0">
-                            <div class="col-12" style="height: 40px;">
-                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                    <span class="material-icons" style="font-size: 26px;">warning</span>
-                                    <h4 class="m-0 mt-1">No Images</h4>
-                                </div>
-                            </div>
-                        </div> -->
-                    <!-- <div class="row mt-3" *ngIf="tempImageFiles.length != 0">
-                            <div class="col-12 my-2" *ngFor="let imageFile of tempImageFiles; index as idx">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <p class="m-0 mb-1">
-                                            <strong>{{ idx + 1 }}</strong>. {{ imageFile.name || imageFile }}
-                                        </p>
-                                        <span *ngIf="productForm.get('thumbnailImage')?.value === idx" class="text-sm text-muted">
-                        Selected as Thumnail Image
-                      </span>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <button type="button" class="btn btn-primary btn-sm mr-2" (click)="changeThumbnailImageIdx(idx)" [ngClass]="{
-                        'btn-success': productForm.get('thumbnailImage')?.value === idx
-                      }">
-                        {{ productForm.get('thumbnailImage')?.value === idx ? 'Selected' : 'Select' }}
-                      </button>
-                                        <button type="button" class="btn btn-danger btn-sm" (click)="removeImage(idx)">
-                        Remove
-                      </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                    <!-- </div> -->
+                    
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default btn-sm" (click)="modal.dismiss('')">
-          Cancel
-        </button>
-            <button type="submit" class="btn btn-dark btn-sm" [disabled]="loader" (click)="addProduct()">
-          Save
-          <span *ngIf="loader">&nbsp;</span>
-          <div *ngIf="loader" class="spinner-border spinner-border-sm text-white" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </button>
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-dark btn-sm" [disabled]="loader" (click)="onSubmit()">
+                {{ updation ? 'Update Product' : 'Create Product' }}
+                <span *ngIf="loader">&nbsp;</span>
+                <div *ngIf="loader" class="spinner-border spinner-border-sm text-white" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </button>
         </div>
     </form>
 </ng-template>
@@ -189,8 +190,8 @@
     <div class="modal-header border-0 d-flex justify-content-between align-items-center">
         <h4>Product Details</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()">
-        <span aria-hidden="true">&times;</span>
-      </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
 
     </div>
     <div class="modal-body">
@@ -230,7 +231,7 @@
         </div>
         <div class="d-flex flex-column mb-1">
             <span class="text-sm text-muted">Image URL</span>
-            <p>&#8377;{{ productModel?.image_url }}</p>
+            <p>{{ productModel?.image_url }}</p>
         </div>
 
         <div class="d-flex flex-column mb-1">
@@ -250,24 +251,28 @@
     <div class="modal-header border-0 d-flex justify-content-between align-items-center">
         <h3>Images</h3>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()">
-        <span aria-hidden="true">&times;</span>
-      </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <div class="row">
             <div class="col-12 col-sm-2 px-0 border-right verticalScroll">
                 <ul class="list-group list-group-flush">
-                    <li class="list-hover list-group-item" *ngFor="let imgSrc of tempImageFiles; index as idx" (click)="selectedImageIdx = idx">
+                    <li class="list-hover list-group-item" *ngFor="let imgSrc of tempImageFiles; index as idx"
+                        (click)="selectedImageIdx = idx">
                         <div class="position-absolute mt-2" *ngIf="thumbnailImageIdx === idx">
                             <h4 class="thumbnail-image-tag px-2 py-1">Thumbnail Image</h4>
                         </div>
-                        <img [src]="imgSrc" [alt]="imgSrc" class="img-fluid rounded shadow-sm" height="64px" loading="lazy">
+                        <img [src]="imgSrc" [alt]="imgSrc" class="img-fluid rounded shadow-sm" height="64px"
+                            loading="lazy">
                     </li>
                 </ul>
             </div>
             <div class="col-12 col-sm-10">
                 <div class="sticky-top">
-                    <img [src]="tempImageFiles[selectedImageIdx]" [alt]="tempImageFiles[selectedImageIdx]" class="img-fluid shadow-sm img-style" loading="lazy" title="View Full Image" (click)="openImage(tempImageFiles[selectedImageIdx])">
+                    <img [src]="tempImageFiles[selectedImageIdx]" [alt]="tempImageFiles[selectedImageIdx]"
+                        class="img-fluid shadow-sm img-style" loading="lazy" title="View Full Image"
+                        (click)="openImage(tempImageFiles[selectedImageIdx])">
                 </div>
             </div>
         </div>

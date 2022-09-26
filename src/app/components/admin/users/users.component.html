@@ -3,7 +3,17 @@
         <div class="col">
             <div class="card shadow-sm">
                 <div class="card-header bg-white border-0">
-                    <h4>Users</h4>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <h4>Users</h4>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="d-flex justify-content-end align-items-center">
+                                <button class="btn btn-dark mr-1 btn btn-success" (click)="openModal(userModal)">Add
+                                    User</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-flush m-0">
@@ -22,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let user of usersObservable | async; index as idx">
+                            <tr *ngFor="let user of usersList index as idx">
                                 <th scope="row">{{idx+1}}</th>
                                 <td>{{user["title"]}}</td>
                                 <td>{{user["firstName"]}}</td>
@@ -35,8 +45,10 @@
                                 <td>{{user["updatedAt"]}}</td>
 
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-dark me-2">Edit</button>
-                                    <button type="button" class="btn btn-sm btn-dark">Delete</button>
+                                    <button type="button" class="btn btn-sm btn-dark me-2 mb-2"
+                                        (click)="openModal(userModal, user)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-dark"
+                                        (click)="deleteUser(user.id)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -46,3 +58,158 @@
         </div>
     </div>
 </div>
+
+<!-- create User-->
+<ng-template #userModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">User {{ updation ? 'Updation' : 'Creation' }}</h4>
+        <button type="button" class="btn-close" aria-label="Close" id="closeAddNewStaffModal" #closeAddNewStaffModal
+            (click)="modal.dismiss('Cross click')">
+            <!-- <span aria-hidden="true">&times;</span> -->
+        </button>
+    </div>
+    <form [formGroup]="userForm" ngNativeValidate>
+        <div class="modal-body">
+            <div class="row">
+
+                <!-- Title -->
+                <div class="form-check">
+                    <div class="m-checkbox-inline mb-0 custom-radio-ml d-flex radio-animated">
+                        <label class="d-block" for="edo-ani">
+                            <input class="radio_animated" id="mr" value="Mr" type="radio" name="title"
+                                formControlName="title">
+                            Mr
+                        </label>
+                        <label class="d-block" for="edo-ani1">&nbsp;
+                            <input class="radio_animated" id="mrs" value="Mrs" type="radio" name="title"
+                                formControlName="title">
+                            Mrs
+                        </label>
+                        <label class="d-block" for="edo-ani1">&nbsp;
+                            <input class="radio_animated" id="miss" value="Miss" type="radio" name="title"
+                                formControlName="title">
+                            Miss
+                        </label>
+                    </div>
+                </div>
+
+                <!-- First Name -->
+                <div class="form-group">
+                    <input type="firstName" class="form-control" autocomplete="off" id="firstName"
+                        placeholder="First Name" name="firstName" formControlName="firstName" required>
+                        <div *ngIf="hasError('firstName')" [class]="hasError('firstName') ? 'error' : ''">
+                            <div *ngIf="firstName?.errors">
+                                <span *ngIf="firstName?.errors?.['required']">First name is a required field</span>
+                                <span *ngIf="firstName?.errors?.['minlength']">First name should min 3 character long</span>
+                                <span *ngIf="firstName?.errors?.['maxlength']">First name should be max 50 character long</span>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <input type="lastName" class="form-control" autocomplete="off" id="lastName" placeholder="Last Name"
+                        name="lastName" formControlName="lastName" required>
+                        <div *ngIf="hasError('lastName')" [class]="hasError('lastName') ? 'error' : ''">
+                            <div *ngIf="lastName?.errors">
+                                <span *ngIf="lastName?.errors?.['required']">Last name is a required field</span>
+                                <span *ngIf="lastName?.errors?.['minlength']">Last name should min 3 character long</span>
+                                <span *ngIf="lastName?.errors?.['maxlength']">Last name should be max 50 character long</span>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Username -->
+                <div class="form-group">
+                    <input type="username" name="username" formControlName="username" class="form-control" id="username"
+                        autocomplete="off" aria-describedby="username" placeholder="Username" required>
+                        <div *ngIf="hasError('username')" [class]="hasError('username') ? 'error' : ''">
+                            <div *ngIf="username?.errors">
+                                <span *ngIf="username?.errors?.['required']">Username is a required field</span>
+                                <span *ngIf="username?.errors?.['minlength']">Username should min 3 character long</span>
+                                <span *ngIf="username?.errors?.['maxlength']">Username should be max 50 character long</span>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <input type="email" name="email" formControlName="email" class="form-control" id="email"
+                        autocomplete="off" aria-describedby="email" placeholder="Email" required>
+                        <div *ngIf="hasError('email')" [class]="hasError('email') ? 'error' : ''">
+                            <div *ngIf="email?.errors">
+                                <span *ngIf="email?.errors?.['required']">Email is a required field</span>
+                                <span *ngIf="email?.errors?.['email']">Please enter a valid email address</span>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <!-- <label for="password">Password</label> -->
+                    <input type="password" class="form-control" autocomplete="off" id="password" placeholder="Password"
+                        name="password" formControlName="password" required>
+                        <div *ngIf="hasError('password')" [class]="hasError('password') ? 'error' : ''">
+                            <div *ngIf="password?.errors">
+                                <span *ngIf="password?.errors?.['required']">Password is a required field</span>
+                                <span *ngIf="password?.errors?.['pattern']">Please enter a valid password</span>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Status -->
+                <div class="form-check">
+                    <div class="m-checkbox-inline mb-0 custom-radio-ml d-flex radio-animated">
+                        <label class="d-block" for="edo-ani">
+                            <input class="radio_animated" id="active" value="active" type="radio" name="status"
+                                formControlName="status">
+                            Active
+                        </label>
+                        <label class="d-block" for="edo-ani1">&nbsp;
+                            <input class="radio_animated" id="inactive" value="inactive" type="radio" name="status"
+                                formControlName="status">
+                            InActive
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="form-group">
+                    <input type="number" class="form-control" autocomplete="off" id="contact" placeholder="Contact"
+                        name="contact" formControlName="contact" required>
+                        <div *ngIf="hasError('contact')" [class]="hasError('contact') ? 'error' : ''">
+                            <div *ngIf="contact?.errors">
+                                <span *ngIf="contact?.errors?.['required']">Contact is a required field</span>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Roles -->
+                <div class="form-group">
+                    <select class="form-select" id="roles" name="roles" formArrayName="roles" class="form-select" (change)="changeRole($event)" placeholder="Roles">
+                        <option selected>Select Role</option>
+                        <option *ngFor="let r of role" [ngValue]="r">{{ r }}</option>
+                    </select>
+                    <div *ngIf="hasError('roles')" [class]="hasError('roles') ? 'error' : ''">
+                        <div *ngIf="roles?.errors">
+                            <span *ngIf="roles?.errors?.['required']">Roles is a required field</span>
+                            <span *ngIf="roles?.errors?.['pattern']">Please enter a valid Roles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-sm" (click)="modal.dismiss('')">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-dark btn-sm" [disabled]="loader" (click)="onClick()">
+                {{ updation ? 'Update User' : 'Creat User' }}
+                <span *ngIf="loader">&nbsp;</span>
+                <div *ngIf="loader" class="spinner-border spinner-border-sm text-white" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </button>
+        </div>
+    </form>
+</ng-template>

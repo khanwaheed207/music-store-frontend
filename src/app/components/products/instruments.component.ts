@@ -38,6 +38,8 @@ export class InstrumentsComponent implements OnInit {
 
   addProductToShoppingCart(product:any) {
     this.productSrv.addProductToShoppingCart(product);
+    console.log(product);
+    
   }
 
   search() {

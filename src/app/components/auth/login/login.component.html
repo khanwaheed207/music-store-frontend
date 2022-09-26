@@ -4,11 +4,12 @@
             <h3 class="text-white text-uppercase m-0 mb-1">Music Store</h3>
             <p class="m-0 text-white h5">User / Admin Dashboard</p>
             <ul class="list-group mt-5 text-white" style="list-style-type: none; margin: 0; padding: 0;">
-                <li>Music has been a part of human life since times immemorial. It is not just an activity that involves an individual and a set of musical instruments. 
-                    It is, instead, a medium that helps express the most profound human emotions. 
-                    This Music store started its journey in music in 1887 and has, since then, 
+                <li>Music has been a part of human life since times immemorial. It is not just an activity that involves
+                    an individual and a set of musical instruments.
+                    It is, instead, a medium that helps express the most profound human emotions.
+                    This Music store started its journey in music in 1887 and has, since then,
                     been among the pioneer in music instruments.</li>
-               
+
             </ul>
         </div>
         <div class="col-12 col-sm-6 d-flex flex-column justify-content-center align-items-center">
@@ -21,19 +22,37 @@
                         <!-- Username -->
                         <div class="form-group col-12 mt-2">
                             <label for="username">Username</label>
-                            <input type="username" class="form-control" id="username"  name="username" formControlName="username" autocomplete="off" aria-describedby="username" placeholder="Enter Username" required>
-                            <small id="usernameHelp" class="form-text text-muted">We'll never share your username with anyone else.</small>
+                            <input type="username" class="form-control" id="username" name="username"
+                                formControlName="username" autocomplete="off" aria-describedby="username"
+                                placeholder="Enter Username" required>
+                            <small id="usernameHelp" class="form-text text-muted">We'll never share your username with
+                                anyone else.</small>
+                                <div *ngIf="hasError('username')" [class]="hasError('username') ? 'error' : ''">
+                                    <div *ngIf="username?.errors">
+                                        <span *ngIf="username?.errors?.['required']">Username is a required field</span>
+                                        <span *ngIf="username?.errors?.['minlength']">Username should min 3 character long</span>
+                                        <span *ngIf="username?.errors?.['maxlength']">Username should be max 50 character long</span>
+                                    </div>
+                                </div>
                         </div>
 
-                        <!-- Password -->
+                        <!-- Password --> 
                         <div class="form-group col-12 mt-2">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" autocomplete="off"  formControlName="password" id="password" placeholder="Enter your password" required>
+                            <input type="password" class="form-control" name="password" autocomplete="off"
+                                formControlName="password" id="password" placeholder="Enter your password" required>
+                            <div *ngIf="hasError('password')" [class]="hasError('password') ? 'error' : ''">
+                                <div *ngIf="password?.errors">
+                                    <span *ngIf="password?.errors?.['required']">Password is a required field</span>
+                                    <span *ngIf="password?.errors?.['pattern']">Please enter a valid password</span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group form-check mt-3">
                             <input type="checkbox" class="form-check-input" id="remember" required>
-                            <label class="form-check-label me-3" for="remember">Remember me</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label class="form-check-label me-3" for="remember">Remember me</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                             <a (click)="goTo('/auth/register')" class="link">SignUp Here</a>
                         </div>

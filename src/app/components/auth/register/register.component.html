@@ -4,52 +4,171 @@
             <h3 class="text-white text-uppercase m-0 mb-1">Music Store</h3>
             <p class="m-0 text-white h5">User / Admin Dashboard</p>
             <ul class="list-group mt-5 text-white" style="list-style-type: none; margin: 0; padding: 0;">
-                <li>Music has been a part of human life since times immemorial. It is not just an activity that involves an individual and a set of musical instruments. 
-                    It is, instead, a medium that helps express the most profound human emotions. 
-                    This Music store started its journey in music in 1887 and has, since then, 
+                <li>Music has been a part of human life since times immemorial. It is not just an activity that involves
+                    an individual and a set of musical instruments.
+                    It is, instead, a medium that helps express the most profound human emotions.
+                    This Music store started its journey in music in 1887 and has, since then,
                     been among the pioneer in music instruments.</li>
-               
+
             </ul>
         </div>
-        <div class="col-12 col-sm-6 d-flex flex-column justify-content-center align-items-center" >
+        <div class="col-12 col-sm-6 d-flex flex-column justify-content-center align-items-center">
             <div class="card w-75 shadow-sm">
                 <div class="card-header bg-white border-0">
                     <h3 class="text-center m-0">Register</h3>
-                  </div>
+                </div>
                 <div class="card-body">
-                    <form>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <label for="username">Username</label>
-                                <input type="username" class="form-control" id="username"  autocomplete="off" aria-describedby="username" placeholder="Enter username"
-                                required>
-                                <small id="usernameHelp" class="form-text text-muted">We'll never share your username with anyone else.</small>
-                              </div>
-                              <div class="form-group col-sm-6">
-                                  <label for="email">Email address</label>
-                                  <input type="email" class="form-control" id="email"  autocomplete="off" aria-describedby="email" placeholder="eg: abc@example.com"
-                                  required>
-                                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <form [formGroup]="registerForm" ngNativeValidate>
+                        <div class="modal-body">
+                            <div class="row">
+
+                                <!-- Title -->
+                                <div class="form-check">
+                                    <div class="m-checkbox-inline mb-0 custom-radio-ml d-flex radio-animated">
+                                        <label class="d-block" for="edo-ani">
+                                            <input class="radio_animated" id="mr" value="Mr" type="radio" name="title"
+                                                formControlName="title">
+                                            Mr
+                                        </label>
+                                        <label class="d-block" for="edo-ani1">&nbsp;
+                                            <input class="radio_animated" id="mrs" value="Mrs" type="radio" name="title"
+                                                formControlName="title">
+                                            Mrs
+                                        </label>
+                                        <label class="d-block" for="edo-ani1">&nbsp;
+                                            <input class="radio_animated" id="miss" value="Miss" type="radio"
+                                                name="title" formControlName="title">
+                                            Miss
+                                        </label>
+                                    </div>
                                 </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6 mt-2">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" autocomplete="off" id="password" placeholder="Enter your password" required>
-                            </div>
-                            <div class="form-group col-sm-6 mt-2">
-                                <label for="cnfPassword">Confirm Password</label>
-                                <input type="cnfPassword" class="form-control" autocomplete="off" id="cnfPassword" placeholder="Confirm Password" required>
+
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <input type="firstName" class="form-control" autocomplete="off" id="firstName"
+                                        placeholder="First Name" name="firstName" formControlName="firstName" required>
+                                    <div *ngIf="hasError('firstName')" [class]="hasError('firstName') ? 'error' : ''">
+                                        <div *ngIf="firstName?.errors">
+                                            <span *ngIf="firstName?.errors?.['required']">First name is a required
+                                                field</span>
+                                            <span *ngIf="firstName?.errors?.['minlength']">First name should min 3
+                                                character long</span>
+                                            <span *ngIf="firstName?.errors?.['maxlength']">First name should be max 50
+                                                character long</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Last Name -->
+                                <div class="form-group">
+                                    <input type="lastName" class="form-control" autocomplete="off" id="lastName"
+                                        placeholder="Last Name" name="lastName" formControlName="lastName" required>
+                                    <div *ngIf="hasError('lastName')" [class]="hasError('lastName') ? 'error' : ''">
+                                        <div *ngIf="lastName?.errors">
+                                            <span *ngIf="lastName?.errors?.['required']">Last name is a required
+                                                field</span>
+                                            <span *ngIf="lastName?.errors?.['minlength']">Last name should min 3
+                                                character long</span>
+                                            <span *ngIf="lastName?.errors?.['maxlength']">Last name should be max 50
+                                                character long</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Username -->
+                                <div class="form-group">
+                                    <input type="username" name="username" formControlName="username"
+                                        class="form-control" id="username" autocomplete="off"
+                                        aria-describedby="username" placeholder="Username" required>
+                                    <div *ngIf="hasError('username')" [class]="hasError('username') ? 'error' : ''">
+                                        <div *ngIf="username?.errors">
+                                            <span *ngIf="username?.errors?.['required']">Username is a required
+                                                field</span>
+                                            <span *ngIf="username?.errors?.['minlength']">Username should min 3
+                                                character long</span>
+                                            <span *ngIf="username?.errors?.['maxlength']">Username should be max 50
+                                                character long</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <input type="email" name="email" formControlName="email" class="form-control"
+                                        id="email" autocomplete="off" aria-describedby="email" placeholder="Email"
+                                        required>
+                                    <div *ngIf="hasError('email')" [class]="hasError('email') ? 'error' : ''">
+                                        <div *ngIf="email?.errors">
+                                            <span *ngIf="email?.errors?.['required']">Email is a required field</span>
+                                            <span *ngIf="email?.errors?.['email']">Please enter a valid email
+                                                address</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="form-group">
+                                    <input type="password" class="form-control" autocomplete="off" id="password"
+                                        placeholder="Password" name="password" formControlName="password" required>
+                                    <div *ngIf="hasError('password')" [class]="hasError('password') ? 'error' : ''">
+                                        <div *ngIf="password?.errors">
+                                            <span *ngIf="password?.errors?.['required']">Password is a required
+                                                field</span>
+                                            <span *ngIf="password?.errors?.['pattern']">Please enter a valid
+                                                password</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="form-check">
+                                    <div class="m-checkbox-inline mb-0 custom-radio-ml d-flex radio-animated">
+                                        <label class="d-block" for="edo-ani">
+                                            <input class="radio_animated" id="active" value="active" type="radio"
+                                                name="status" formControlName="status">
+                                            Active
+                                        </label>
+                                        <label class="d-block" for="edo-ani1">&nbsp;
+                                            <input class="radio_animated" id="inactive" value="inactive" type="radio"
+                                                name="status" formControlName="status">
+                                            InActive
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Contact -->
+                                <div class="form-group">
+                                    <input type="number" class="form-control" autocomplete="off" id="contact"
+                                        placeholder="Contact" name="contact" formControlName="contact" required>
+                                    <div *ngIf="hasError('contact')" [class]="hasError('contact') ? 'error' : ''">
+                                        <div *ngIf="contact?.errors">
+                                            <span *ngIf="contact?.errors?.['required']">Contact is a required
+                                                field</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Roles -->
+                                <div class="form-group">
+                                    <select class="form-select" id="roles" name="roles" formArrayName="roles"
+                                        class="form-select" (change)="changeRole($event)" placeholder="Roles">
+                                        <option selected>Select Role</option>
+                                        <option *ngFor="let r of role" [value]="r">{{ r }}</option>
+                                    </select>
+                                </div>
+
+
                             </div>
                         </div>
                         <div class="form-group form-check mt-2">
                             <input type="checkbox" class="form-check-input" id="remember" required>
-                            <label class="form-check-label me-2" for="remember">Remember me</label> 
+                            <label class="form-check-label me-2" for="remember">Remember me</label>
                             <a (click)="goTo('/auth/login')" class="link ms-3">SignIn Here</a>
-                          </div>
-                        <button type="submit" class="btn btn-info mt-3">Submit</button>
-                      </form>
-                  </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-info mt-3" (click)="registerUser()">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

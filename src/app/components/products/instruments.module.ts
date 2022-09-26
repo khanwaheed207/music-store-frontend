@@ -19,8 +19,6 @@ const routes: Routes = [
     { path :'whishlist', component: WhishlistComponent },
 ];
 
-
-
 @NgModule({
   declarations: [
     InstrumentsComponent,

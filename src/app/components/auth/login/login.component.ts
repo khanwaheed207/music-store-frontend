@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -21,8 +21,8 @@ export class LoginComponent implements OnInit {
 
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
-      username: [''],
-      password: ['']
+      username: ['',Validators.required],
+      password: ['',Validators.required]
     });
   };
 
@@ -46,16 +46,16 @@ export class LoginComponent implements OnInit {
       })
     } else {
       this.validateForm(this.loginForm);
-      console.log("Form is not valid!");
     }
-
   }
 
   public validateForm(form: any) {
+    console.log("Validate Forms");
+    
     Object.keys(form.controls).forEach(field => {
       const control = form.controls[field];
-      if (control instanceof FormControl) {
-        control.markAsUntouched({ onlySelf: true })
+      if (control instanceof FormControl || control instanceof FormArray) {
+        control.markAsTouched({ onlySelf: true })
       } else {
         this.validateForm(form);
       }

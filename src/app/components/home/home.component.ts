@@ -35,6 +35,8 @@ export class HomeComponent implements OnInit {
 
   addProductToWhishlist(product:any) {
     this.productSrv.addProductToWhishlist(product);
+  console.log(product);
+  
   }
 
   addProductToShoppingCart(product:any) {

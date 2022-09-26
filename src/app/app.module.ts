@@ -8,12 +8,11 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-import { FormsModule } from '@angular/forms';
+import { FormArray, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { OrdersComponent } from './components/orders/orders.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthTokenInterceptorService } from './services/auth-token-interceptor.service';
-import { SummaryPipe } from './pipes/summary.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,7 @@ import { SummaryPipe } from './pipes/summary.pipe';
     HomeComponent,
     NavbarComponent,
     NotfoundComponent,    
-    OrdersComponent, SummaryPipe
+    OrdersComponent
   ],
   imports: [
     BrowserModule,RouterModule,FormsModule,

@@ -20,8 +20,8 @@ export class ProductsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getProducts(title?:string) {
-    let url  = title ? `${this.apiUrl}?title=${title}` : this.apiUrl ;
+  getProducts(title?: string) {
+    let url = title ? `${this.apiUrl}?title=${title}` : this.apiUrl;
     this.httpClient.get(url).subscribe(
       (res) => {
         this.productsSub.next(Object.assign([], res))
@@ -35,14 +35,14 @@ export class ProductsService {
     return this.httpClient.post(this.apiUrl, data);
   }
 
-   // update product
-   updateProducts(data: any) {
-    return this.httpClient.put(this.apiUrl, data);
+  // update product
+  updateProducts(data: any) {
+    return this.httpClient.put(`${this.apiUrl}/${data.id}`, data);
   }
 
   // Delete product
-  deleteProduct(data: any) {
-    return this.httpClient.delete(this.apiUrl, data);
+  deleteProduct(id: number) {
+    return this.httpClient.delete(`${this.apiUrl}/${id}`);
   }
 
   /* postData(data: any): Observable<any> {
@@ -52,7 +52,7 @@ export class ProductsService {
 
   // for admin
   getAllProducts(): any {
-    return this.httpClient.get(this.apiUrl);
+    return this.httpClient.get<any[]>(this.apiUrl);
   }
 
   // add products to cart

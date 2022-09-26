@@ -10,5 +10,11 @@
 .card{
     border: 3px solid #212529;
     border-radius: 0rem;
-    padding: 2em;
+    padding: 2em
+}
+
+.error {
+    color: red;
+    font-style: italic;
+    font-size: 12px;
 }

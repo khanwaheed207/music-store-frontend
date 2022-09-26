@@ -1,5 +1,5 @@
 #bg {
-    background: linear-gradient( to bottom right, #737a7b, #212529);
+    background: linear-gradient(to bottom right, #737a7b, #212529);
 }
 
 .form-group .input-group .input[type="text"]:focus {
@@ -7,8 +7,60 @@
     outline: none !important;
 }
 
-.card{
+.card {
     border: 3px solid #212529;
     border-radius: 0rem;
     padding: 2em;
+}
+
+.rounded-t-5 {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+@media (min-width: 992px) {
+    .rounded-tr-lg-0 {
+        border-top-right-radius: 0;
+    }
+
+    .rounded-bl-lg-5 {
+        border-bottom-left-radius: 0.5rem;
+    }
+}
+
+.form-control {
+    margin: 5%;
+}
+
+.mt-3 {
+    margin-left: 9%;
+}
+
+.form-select {
+    margin-left: 20px;
+    width: 100%;
+}
+
+.mt-2 {
+    margin-left: 39px;
+}
+
+.form-check {
+    margin-left: 12px;
+}
+
+.card {
+    margin-right: 30px;
+}
+
+.form-check {
+    padding-left: 1.5em;
+}
+
+.error {
+    color: red;
+    font-style: italic;
+    font-size: 12px;
+    margin-top: -15px;
+    margin-left: 25px;
 }
