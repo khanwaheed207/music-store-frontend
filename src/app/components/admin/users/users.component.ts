@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -28,15 +28,15 @@ export class UsersComponent implements OnInit {
   // Create reactive form for registration
   createUserForm() {
     this.userForm = this.fb.group({
-      title: [''],
-      username: [''],
-      password: [''],
-      email: [''],
-      firstName: [''],
-      lastName: [''],
-      status: [''],
-      contact: [''],
-      roles: [''],
+      title: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      email: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      status: ['', Validators.required],
+      contact: ['', Validators.required],
+      roles: ['', Validators.required]
     });
   }
 
@@ -46,7 +46,6 @@ export class UsersComponent implements OnInit {
 
   public getUserList() {
     this.userService.getUsers().subscribe(data => {
-      console.log("Data loaded", data);
       this.usersList = data;
     })
   }
@@ -66,43 +65,34 @@ export class UsersComponent implements OnInit {
   addUser() {
     if (this.userForm.valid) {
       this.userService.addUser(this.userForm.value).subscribe(res => {
-        console.log("User is added successfully");
         this.modelService.dismissAll();
         this.getUserList();
       }, err => {
         console.log(err);
-        console.log("Failed add user, please try again.");
       });
     } else {
       this.validateForm(this.userForm);
-      console.log("Form is not valid!");
     }
   }
 
   updateUser() {
     if (this.userForm.valid) {
       this.userService.updateUser(this.userForm.getRawValue()).subscribe((res: any) => {
-        console.log("User updated successfull");
         this.modelService.dismissAll();
         this.getUserList();
       }, (err: any) => {
-        console.log(err);
-        console.log("Failed to update user, Please try again");
       });
     } else {
       this.validateForm(this.userForm);
-      console.log("Form is not valid!");
     }
   }
 
   deleteUser(id: number): void {
     this.userService.deleteUser(id).subscribe((data: any) => {
-      console.log("User deleted successfully!");
       this.modelService.dismissAll();
       this.getUserList();
     }, (err: any) => {
       console.log(err);
-      console.log("Failed to delete user!");
 
     });
   }

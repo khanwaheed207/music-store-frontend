@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -34,13 +34,13 @@ export class ProductsComponent implements OnInit {
   // Create reactive form for registration
   createProductForm() {
     this.productForm = this.fb.group({
-      title: [''],
+      title: ['', Validators.required],
       description: [''],
-      referance_code: [''],
-      rating: [''],
-      price: [''],
-      artist: [''],
-      artwork: [''],
+      referance_code: ['', Validators.required],
+      rating: ['', Validators.required],
+      price: ['', Validators.required],
+      artist: ['', Validators.required],
+      artwork: ['', Validators.required],
       image_url: ['']
     });
   };
@@ -48,7 +48,6 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.getProductList();
     this.prodObservable = this.productService.getAllProducts();
-    // this.categoryObservable = this.categoriesService.getCategories();
   }
 
   public getProductList() {
@@ -68,44 +67,35 @@ export class ProductsComponent implements OnInit {
   addProduct() {
     if (this.productForm.valid) {
       this.productService.addProducts(this.productForm.value).subscribe(res => {
-        console.log("Product added successfull!");
         this.modalService.dismissAll();
         this.getProductList();
       }, err => {
         console.log(err);
-        console.log("Failed to add product, Please try again!");
       });
     } else {
       this.validateForm(this.productForm);
-      console.log("Form is not valid!");
     }
   }
 
   updateProduct() {
     if (this.productForm.valid) {
       this.productService.updateProducts(this.productForm.getRawValue()).subscribe((res: any) => {
-        console.log("Product updated successfullty");
         this.modalService.dismissAll();
         this.getProductList();
       }, (err: any) => {
         console.log();
-        console.log("Failed to update user, Please tru again!");
       });
     } else {
       this.validateForm(this.productForm);
-      console.log("Form is nor valid!");
     }
   }
 
   deleteProduct(id: number): void {
     if (this.productForm.valid) {
       this.productService.deleteProduct(id).subscribe((data: any) => {
-        console.log("Product deleted successfullty");
         this.modalService.dismissAll();
         this.getProductList();
       }, (err: any) => {
-        console.log(err);
-        console.log("Product deletion failed!");
       });
     }
   }
@@ -215,8 +205,7 @@ export class ProductsComponent implements OnInit {
         artwork: [productObj.artwork],
         image_url: [productObj.image_url],
       });
-      // this.onSelectOption(productObj.productCategory);
-      // this.tempImageFiles = productObj.image_url || [];
+
     }
   }
 

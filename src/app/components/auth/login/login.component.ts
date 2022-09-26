@@ -21,8 +21,8 @@ export class LoginComponent implements OnInit {
 
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
-      username: ['',Validators.required],
-      password: ['',Validators.required]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   };
 
@@ -35,23 +35,26 @@ export class LoginComponent implements OnInit {
       this.isSubmitted = true;
       this.authSrv.signIn(this.loginForm.getRawValue()).subscribe((data: any) => {
         this.setUser(data);
-        console.log(data);
-        if(data.roles[0]=="ROLE_ADMIN") {
+        if (data.roles[0] == "ROLE_ADMIN") {
           this.router.navigateByUrl("/admin/users");
-        } else{
+        } else {
           this.router.navigateByUrl("/instruments");
         }
       }, err => {
-        console.log(err);
+        switch(err.status) {
+          case 401 :
+            this.router.navigateByUrl("/not-found");
+            break;
+          
+        }
       })
     } else {
       this.validateForm(this.loginForm);
     }
   }
 
+  // Validate Form
   public validateForm(form: any) {
-    console.log("Validate Forms");
-    
     Object.keys(form.controls).forEach(field => {
       const control = form.controls[field];
       if (control instanceof FormControl || control instanceof FormArray) {
